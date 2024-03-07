@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DVD Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #808080; /* Grey background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            background-color: #f0f0f0; /* Light grey canvas */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Drop shadow */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions to 70% of the window width and height
+        canvas.width = window.innerWidth * 0.7;
+        canvas.height = window.innerHeight * 0.7;
+
+        // Define DVD logo properties
+        let x = Math.random() * canvas.width;
+        let y = Math.random() * canvas.height;
+        let dx = 2, dy = 2;
+        const width = 70, height = 50;
+        const colors = ["red", "blue", "green", "cyan", "magenta", "yellow"];
+        let color = colors[Math.floor(Math.random() * colors.length)];
+
+        function drawDVDLogo() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3; // Increase line width
+            ctx.strokeRect(x, y, width, height);
+            ctx.fillStyle = color;
+            ctx.font = 'bold 16px Arial'; // Bold font
+            ctx.fillText('DVD', x + 12, y + 28); // Adjust text position
+
+            x += dx;
+            y += dy;
+
+            // Bounce off the walls and change color
+            if ((x <= 0 || x + width >= canvas.width) && (y <= 0 || y + height >= canvas.height)) {
+                dx = -dx;
+                dy = -dy;
+                color = colors[Math.floor(Math.random() * colors.length)]; // Change color
+            }
+            else if (x <= 0 || x + width >= canvas.width) {
+                dx = -dx;
+                color = colors[Math.floor(Math.random() * colors.length)]; // Change color
+            }
+            else if (y <= 0 || y + height >= canvas.height) {
+                dy = -dy;
+                color = colors[Math.floor(Math.random() * colors.length)]; // Change color
+            }
+    
+            requestAnimationFrame(drawDVDLogo);
+        }
+
+        // Start animation
+        drawDVDLogo();
+
+        // Update canvas dimensions if the window is resized
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth * 0.7;
+            canvas.height = window.innerHeight * 0.7;
+        });
+    </script>
+</body>
+</html>
